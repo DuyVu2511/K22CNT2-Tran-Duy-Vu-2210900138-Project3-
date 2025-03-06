@@ -7,16 +7,14 @@ public class ThanhToan {
     private int maHoaDon;
     private Date ngayThanhToan;
     private double soTien;
-    private String hinhThucThanhToan;
 
     public ThanhToan() {}
 
-    public ThanhToan(int maThanhToan, int maHoaDon, Date ngayThanhToan, double soTien, String hinhThucThanhToan) {
+    public ThanhToan(int maThanhToan, int maHoaDon, Date ngayThanhToan, double soTien) {
         this.maThanhToan = maThanhToan;
         this.maHoaDon = maHoaDon;
         this.ngayThanhToan = ngayThanhToan;
         this.soTien = soTien;
-        this.hinhThucThanhToan = hinhThucThanhToan;
     }
 
     public int getMaThanhToan() {
@@ -49,13 +47,5 @@ public class ThanhToan {
 
     public void setSoTien(double soTien) {
         this.soTien = soTien;
-    }
-
-    public String getHinhThucThanhToan() {
-        return hinhThucThanhToan;
-    }
-
-    public void setHinhThucThanhToan(String hinhThucThanhToan) {
-        this.hinhThucThanhToan = hinhThucThanhToan;
     }
 }

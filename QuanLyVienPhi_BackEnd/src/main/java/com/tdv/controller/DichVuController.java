@@ -7,55 +7,39 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
-@RequestMapping("/dichvu")
+@RequestMapping("/dichvu_list")
 public class DichVuController {
     @Autowired
     private DichVuDAO dichVuDAO;
 
-    // Hiển thị danh sách dịch vụ
-    @GetMapping
+    @GetMapping("")
     public String listDichVu(Model model) {
-        List<DichVu> list = dichVuDAO.getAllDichVu();
-        model.addAttribute("dichVus", list);
+        model.addAttribute("dichVus", dichVuDAO.getAllDichVu());
         return "dichvu_list";
     }
 
-    // Hiển thị form thêm dịch vụ
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("dichVu", new DichVu());
         return "dichvu_form";
     }
 
-    // Xử lý thêm dịch vụ
-    @PostMapping("/add")
-    public String addDichVu(@ModelAttribute DichVu dichVu) {
-        dichVuDAO.addDichVu(dichVu);
+    @PostMapping("/save")
+    public String saveDichVu(@ModelAttribute("dichVu") DichVu dichVu) {
+        dichVuDAO.saveOrUpdate(dichVu);
         return "redirect:/dichvu";
     }
 
-    // Hiển thị form cập nhật
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable int id, Model model) {
-        DichVu dichVu = dichVuDAO.getDichVuById(id);
-        model.addAttribute("dichVu", dichVu);
+    public String showEditForm(@PathVariable("id") int id, Model model) {
+        model.addAttribute("dichVu", dichVuDAO.getById(id));
         return "dichvu_form";
     }
 
-    // Xử lý cập nhật dịch vụ
-    @PostMapping("/edit")
-    public String updateDichVu(@ModelAttribute DichVu dichVu) {
-        dichVuDAO.updateDichVu(dichVu);
-        return "redirect:/dichvu";
-    }
-
-    // Xóa dịch vụ
     @GetMapping("/delete/{id}")
-    public String deleteDichVu(@PathVariable int id) {
-        dichVuDAO.deleteDichVu(id);
+    public String deleteDichVu(@PathVariable("id") int id) {
+        dichVuDAO.delete(id);
         return "redirect:/dichvu";
     }
 }

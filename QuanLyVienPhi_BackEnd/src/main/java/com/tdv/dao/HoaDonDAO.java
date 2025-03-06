@@ -15,22 +15,22 @@ public class HoaDonDAO {
     }
 
     public List<HoaDon> getAllHoaDon() {
-        String sql = "SELECT * FROM TDV_HoaDon";
+        String sql = "SELECT TDV_MaHoaDon, TDV_NgayLap, TDV_TongTien FROM TDV_HoaDon";
         return jdbcTemplate.query(sql, new HoaDonMapper());
     }
 
     public HoaDon getById(int id) {
-        String sql = "SELECT * FROM TDV_HoaDon WHERE TDV_MaHoaDon = ?";
+        String sql = "SELECT TDV_MaHoaDon, TDV_NgayLap, TDV_TongTien FROM TDV_HoaDon WHERE TDV_MaHoaDon = ?";
         return jdbcTemplate.queryForObject(sql, new HoaDonMapper(), id);
     }
 
     public void saveOrUpdate(HoaDon hoaDon) {
         if (hoaDon.getMaHoaDon() > 0) {
-            String sql = "UPDATE TDV_HoaDon SET TDV_MaHoSo=?, TDV_NgayLap=?, TDV_TongTien=? WHERE TDV_MaHoaDon=?";
-            jdbcTemplate.update(sql, hoaDon.getMaHoSo(), hoaDon.getNgayLap(), hoaDon.getTongTien(), hoaDon.getMaHoaDon());
+            String sql = "UPDATE TDV_HoaDon SET TDV_NgayLap=?, TDV_TongTien=? WHERE TDV_MaHoaDon=?";
+            jdbcTemplate.update(sql, hoaDon.getNgayLap(), hoaDon.getTongTien(), hoaDon.getMaHoaDon());
         } else {
-            String sql = "INSERT INTO TDV_HoaDon (TDV_MaHoSo, TDV_NgayLap, TDV_TongTien) VALUES (?, ?, ?)";
-            jdbcTemplate.update(sql, hoaDon.getMaHoSo(), hoaDon.getNgayLap(), hoaDon.getTongTien());
+            String sql = "INSERT INTO TDV_HoaDon (TDV_NgayLap, TDV_TongTien) VALUES (?, ?)";
+            jdbcTemplate.update(sql, hoaDon.getNgayLap(), hoaDon.getTongTien());
         }
     }
 
@@ -44,7 +44,6 @@ public class HoaDonDAO {
         public HoaDon mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new HoaDon(
                 rs.getInt("TDV_MaHoaDon"),
-                rs.getInt("TDV_MaHoSo"),
                 rs.getString("TDV_NgayLap"),
                 rs.getDouble("TDV_TongTien")
             );

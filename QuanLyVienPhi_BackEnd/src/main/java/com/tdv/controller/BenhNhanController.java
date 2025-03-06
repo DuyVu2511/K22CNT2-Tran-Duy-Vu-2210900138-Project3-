@@ -5,12 +5,8 @@ import com.tdv.model.BenhNhan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,47 +16,92 @@ public class BenhNhanController {
     @Autowired
     private BenhNhanDAO benhNhanDAO;
 
-    // Hiển thị danh sách bệnh nhân
-    @GetMapping("/benhnhan")
+    @GetMapping("/benhnhan_list")
     public String listBenhNhan(Model model) {
         List<BenhNhan> list = benhNhanDAO.getAllBenhNhan();
         model.addAttribute("benhNhans", list);
-        return "benhnhan_list"; // Tên view cho danh sách bệnh nhân
+        return "benhnhan_list";
     }
 
-    // Hiển thị form nhập thông tin bệnh nhân
-    @GetMapping("/benhnhan/saveform")
-    public String showForm(Model model) {
-        model.addAttribute("command", new BenhNhan());
-        return "benhnhan_form"; // Tên view cho form nhập
+    @GetMapping("/benhnhan_add")
+    public String showAddForm(Model model) {
+        model.addAttribute("benhNhan", new BenhNhan());
+        return "benhnhan_add";
     }
 
-    // Lưu thông tin bệnh nhân vào cơ sở dữ liệu
     @PostMapping("/benhnhan/save")
-    public String save(@ModelAttribute("user") BenhNhan benhNhan) {
-        benhNhanDAO.save(benhNhan);
-        return "redirect:/benhnhan"; // Chuyển hướng về danh sách bệnh nhân
+    public String save(@ModelAttribute("benhNhan") BenhNhan benhNhan, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("error", "Dữ liệu không hợp lệ: " + result.getAllErrors());
+            return "benhnhan_add";
+        }
+        try {
+            if (benhNhan.getHoTen().trim().isEmpty() || benhNhan.getNgaySinh() == null ||
+                benhNhan.getCmndCccd().trim().isEmpty() || benhNhan.getSoDienThoai().trim().isEmpty() ||
+                benhNhan.getDiaChi().trim().isEmpty()) {
+                model.addAttribute("error", "Vui lòng nhập đầy đủ thông tin!");
+                return "benhnhan_add";
+            }
+
+            benhNhanDAO.save(benhNhan);
+            return "redirect:/benhnhan_list";
+        } catch (org.springframework.dao.DuplicateKeyException e) {
+            model.addAttribute("error", "CMND/CCCD hoặc Mã Bảo Hiểm đã tồn tại!");
+            return "benhnhan_add";
+        } catch (Exception e) {
+            model.addAttribute("error", "Lỗi xảy ra: " + e.getMessage());
+            return "benhnhan_add";
+        }
     }
 
-    // Hiển thị form sửa thông tin bệnh nhân
-    @RequestMapping(value = "/benhnhan/edit/{id}", method = RequestMethod.GET)
-    public String edit(@PathVariable int id, Model model) {
+    @GetMapping("/benhnhan_edit/{id}")
+    public String showEditForm(@PathVariable("id") int id, Model model) {
         BenhNhan benhNhan = benhNhanDAO.getBenhNhanById(id);
-        model.addAttribute("command", benhNhan);
-        return "benhnhan_edit"; // Tên view cho form sửa
+        if (benhNhan == null) {
+            model.addAttribute("error", "Không tìm thấy bệnh nhân!");
+            return "redirect:/benhnhan_list";
+        }
+        model.addAttribute("benhNhan", benhNhan);
+        return "benhnhan_edit";
     }
 
-    // Lưu thông tin bệnh nhân sau khi sửa
-    @RequestMapping(value = "/benhnhan/editsave", method = RequestMethod.POST)
-    public String editSave(@ModelAttribute("user") BenhNhan benhNhan) {
-        benhNhanDAO.update(benhNhan);
-        return "redirect:/benhnhan"; // Chuyển hướng về danh sách bệnh nhân
+    @PostMapping("/benhnhan/edit")
+    public String editSave(@ModelAttribute("benhNhan") BenhNhan benhNhan, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("error", "Dữ liệu không hợp lệ: " + result.getAllErrors());
+            return "benhnhan_edit";
+        }
+        try {
+            if (benhNhan.getHoTen().trim().isEmpty() || benhNhan.getNgaySinh() == null ||
+                benhNhan.getCmndCccd().trim().isEmpty() || benhNhan.getSoDienThoai().trim().isEmpty() ||
+                benhNhan.getDiaChi().trim().isEmpty()) {
+                model.addAttribute("error", "Vui lòng nhập đầy đủ thông tin!");
+                return "benhnhan_edit";
+            }
+
+            benhNhanDAO.update(benhNhan);
+            return "redirect:/benhnhan_list";
+        } catch (org.springframework.dao.DuplicateKeyException e) {
+            model.addAttribute("error", "CMND/CCCD hoặc Mã Bảo Hiểm đã tồn tại!");
+            return "benhnhan_edit";
+        } catch (Exception e) {
+            model.addAttribute("error", "Lỗi xảy ra: " + e.getMessage());
+            return "benhnhan_edit";
+        }
     }
 
-    // Xóa thông tin bệnh nhân
-    @RequestMapping(value = "/benhnhan/delete/{id}", method = RequestMethod.GET)
-    public String delete(@PathVariable int id) {
-        benhNhanDAO.delete(id);
-        return "redirect:/benhnhan"; // Chuyển hướng về danh sách bệnh nhân
+    @GetMapping("/benhnhan_delete/{id}")
+    public String delete(@PathVariable("id") int id, Model model) {
+        try {
+            int affectedRows = benhNhanDAO.delete(id);
+            if (affectedRows == 0) {
+                model.addAttribute("error", "Không thể xóa bệnh nhân này vì có ràng buộc dữ liệu!");
+                return "benhnhan_list";
+            }
+            return "redirect:/benhnhan_list";
+        } catch (Exception e) {
+            model.addAttribute("error", "Lỗi khi xóa: " + e.getMessage());
+            return "benhnhan_list";
+        }
     }
 }

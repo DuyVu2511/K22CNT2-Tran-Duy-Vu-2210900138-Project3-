@@ -12,7 +12,6 @@
             <th>Ma Hoa Don</th>
             <th>Ngay Thanh Toan</th>
             <th>So Tien</th>
-            <th>Hinh Thuc Thanh Toan</th>
             <th>Hanh Dong</th>
         </tr>
         <c:forEach var="thanhToan" items="${thanhToans}">
@@ -21,7 +20,6 @@
                 <td>${thanhToan.maHoaDon}</td>
                 <td>${thanhToan.ngayThanhToan}</td>
                 <td>${thanhToan.soTien}</td>
-                <td>${thanhToan.hinhThucThanhToan}</td>
                 <td>
                     <a href="thanhtoan/edit/${thanhToan.maThanhToan}">Sua</a>
                     <a href="thanhtoan/delete/${thanhToan.maThanhToan}" onclick="return confirm('Ban co chac chan muon xoa?')">Xoa</a>

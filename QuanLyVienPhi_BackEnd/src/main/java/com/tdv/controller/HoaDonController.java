@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/hoadon")
+@RequestMapping("/hoadon_list")
 public class HoaDonController {
     @Autowired
     private HoaDonDAO hoaDonDAO;

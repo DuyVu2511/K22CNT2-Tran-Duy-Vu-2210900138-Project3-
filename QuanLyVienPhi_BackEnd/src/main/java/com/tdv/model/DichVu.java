@@ -7,7 +7,6 @@ public class DichVu {
     private double donGia;
     private String trangThai;
 
-    // Constructors
     public DichVu() {}
 
     public DichVu(int maDichVu, String tenDichVu, String moTa, double donGia, String trangThai) {
@@ -18,7 +17,6 @@ public class DichVu {
         this.trangThai = trangThai;
     }
 
-    // Getters và Setters
     public int getMaDichVu() { return maDichVu; }
     public void setMaDichVu(int maDichVu) { this.maDichVu = maDichVu; }
 

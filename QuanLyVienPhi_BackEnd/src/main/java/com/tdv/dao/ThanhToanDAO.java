@@ -26,11 +26,11 @@ public class ThanhToanDAO {
 
     public void saveOrUpdate(ThanhToan thanhToan) {
         if (thanhToan.getMaThanhToan() > 0) {
-            String sql = "UPDATE TDV_ThanhToan SET TDV_MaHoaDon=?, TDV_NgayThanhToan=?, TDV_SoTien=?, TDV_HinhThucThanhToan=? WHERE TDV_MaThanhToan=?";
-            jdbcTemplate.update(sql, thanhToan.getMaHoaDon(), thanhToan.getNgayThanhToan(), thanhToan.getSoTien(), thanhToan.getHinhThucThanhToan(), thanhToan.getMaThanhToan());
+            String sql = "UPDATE TDV_ThanhToan SET TDV_MaHoaDon=?, TDV_NgayThanhToan=?, TDV_SoTien=? WHERE TDV_MaThanhToan=?";
+            jdbcTemplate.update(sql, thanhToan.getMaHoaDon(), thanhToan.getNgayThanhToan(), thanhToan.getSoTien(), thanhToan.getMaThanhToan());
         } else {
-            String sql = "INSERT INTO TDV_ThanhToan (TDV_MaHoaDon, TDV_NgayThanhToan, TDV_SoTien, TDV_HinhThucThanhToan) VALUES (?, ?, ?, ?)";
-            jdbcTemplate.update(sql, thanhToan.getMaHoaDon(), thanhToan.getNgayThanhToan(), thanhToan.getSoTien(), thanhToan.getHinhThucThanhToan());
+            String sql = "INSERT INTO TDV_ThanhToan (TDV_MaHoaDon, TDV_NgayThanhToan, TDV_SoTien) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sql, thanhToan.getMaHoaDon(), thanhToan.getNgayThanhToan(), thanhToan.getSoTien());
         }
     }
 
@@ -46,8 +46,7 @@ public class ThanhToanDAO {
                 rs.getInt("TDV_MaThanhToan"),
                 rs.getInt("TDV_MaHoaDon"),
                 rs.getDate("TDV_NgayThanhToan"),
-                rs.getDouble("TDV_SoTien"),
-                rs.getString("TDV_HinhThucThanhToan")
+                rs.getDouble("TDV_SoTien")
             );
         }
     }

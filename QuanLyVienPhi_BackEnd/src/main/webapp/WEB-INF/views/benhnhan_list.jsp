@@ -5,7 +5,7 @@
 </head>
 <body>
     <h2>Danh sach benh nhan</h2>
-    <a href="benhnhan/add">Them benh nhan</a>
+    <a href="benhnhan_add">Them benh nhan</a>
     <table border="1">
         <tr>
             <th>Ma</th>
@@ -29,8 +29,8 @@
                 <td>${bn.diaChi}</td>
                 <td>${bn.maBaoHiem}</td>
                 <td>
-                    <a href="benhnhan/edit/${bn.maBenhNhan}">Sua</a> |
-                    <a href="benhnhan/delete/${bn.maBenhNhan}" onclick="return confirm('Xoa benh nhan nay?')">Xoa</a>
+                    <a href="benhnhan_edit/${bn.maBenhNhan}">Sua</a> |
+                    <a href="benhnhan_delete/${bn.maBenhNhan}" onclick="return confirm('Xoa benh nhan nay?')">Xoa</a>
                 </td>
             </tr>
         </c:forEach>

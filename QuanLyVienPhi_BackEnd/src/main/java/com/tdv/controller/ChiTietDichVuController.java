@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/chitietdichvu")
+@RequestMapping("/chitietdichvu_list")
 public class ChiTietDichVuController {
     @Autowired
     private ChiTietDichVuDAO chiTietDichVuDAO;

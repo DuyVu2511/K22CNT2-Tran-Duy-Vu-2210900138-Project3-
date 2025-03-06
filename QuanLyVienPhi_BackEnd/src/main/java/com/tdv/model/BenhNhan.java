@@ -1,23 +1,28 @@
 package com.tdv.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class BenhNhan {
     private int maBenhNhan;
     private String hoTen;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngaySinh;
+    
     private String gioiTinh;
     private String cmndCccd;
     private String soDienThoai;
     private String diaChi;
     private String maBaoHiem;
-    private Date ngayTao;
+    private Timestamp ngayTao;
 
     // Constructors
     public BenhNhan() {}
 
     public BenhNhan(int maBenhNhan, String hoTen, Date ngaySinh, String gioiTinh, String cmndCccd, 
-                    String soDienThoai, String diaChi, String maBaoHiem, Date ngayTao) {
+                    String soDienThoai, String diaChi, String maBaoHiem, Timestamp ngayTao) {
         this.maBenhNhan = maBenhNhan;
         this.hoTen = hoTen;
         this.ngaySinh = ngaySinh;
@@ -54,6 +59,13 @@ public class BenhNhan {
     public String getMaBaoHiem() { return maBaoHiem; }
     public void setMaBaoHiem(String maBaoHiem) { this.maBaoHiem = maBaoHiem; }
 
-    public Date getNgayTao() { return ngayTao; }
-    public void setNgayTao(Date ngayTao) { this.ngayTao = ngayTao; }
+    public Timestamp getNgayTao() { return ngayTao; }
+    public void setNgayTao(Timestamp ngayTao) { this.ngayTao = ngayTao; }
+
+    @Override
+    public String toString() {
+        return "BenhNhan [maBenhNhan=" + maBenhNhan + ", hoTen=" + hoTen + ", ngaySinh=" + ngaySinh + 
+               ", gioiTinh=" + gioiTinh + ", cmndCccd=" + cmndCccd + ", soDienThoai=" + soDienThoai + 
+               ", diaChi=" + diaChi + ", maBaoHiem=" + maBaoHiem + ", ngayTao=" + ngayTao + "]";
+    }
 }

@@ -9,7 +9,6 @@
     <table border="1">
         <tr>
             <th>Ma Hoa Don</th>
-            <th>Ma Ho So</th>
             <th>Ngay Lap</th>
             <th>Tong Tien</th>
             <th>Hanh Dong</th>
@@ -17,7 +16,6 @@
         <c:forEach var="hoaDon" items="${hoaDons}">
             <tr>
                 <td>${hoaDon.maHoaDon}</td>
-                <td>${hoaDon.maHoSo}</td>
                 <td>${hoaDon.ngayLap}</td>
                 <td>${hoaDon.tongTien}</td>
                 <td>

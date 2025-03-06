@@ -1,20 +1,22 @@
 package com.tdv.model;
 
+import java.math.BigDecimal;
+
 public class ChiTietHoaDon {
     private int maChiTiet;
     private int maHoaDon;
     private int maDichVu;
     private int soLuong;
-    private double donGia;
+    private BigDecimal thanhTien; // Chỉ giữ lại thanhTien
 
     public ChiTietHoaDon() {}
 
-    public ChiTietHoaDon(int maChiTiet, int maHoaDon, int maDichVu, int soLuong, double donGia) {
+    public ChiTietHoaDon(int maChiTiet, int maHoaDon, int maDichVu, int soLuong, BigDecimal thanhTien) {
         this.maChiTiet = maChiTiet;
         this.maHoaDon = maHoaDon;
         this.maDichVu = maDichVu;
         this.soLuong = soLuong;
-        this.donGia = donGia;
+        this.thanhTien = thanhTien;
     }
 
     public int getMaChiTiet() {
@@ -49,11 +51,11 @@ public class ChiTietHoaDon {
         this.soLuong = soLuong;
     }
 
-    public double getDonGia() {
-        return donGia;
+    public BigDecimal getThanhTien() {
+        return thanhTien;
     }
 
-    public void setDonGia(double donGia) {
-        this.donGia = donGia;
+    public void setThanhTien(BigDecimal thanhTien) {
+        this.thanhTien = thanhTien;
     }
 }
