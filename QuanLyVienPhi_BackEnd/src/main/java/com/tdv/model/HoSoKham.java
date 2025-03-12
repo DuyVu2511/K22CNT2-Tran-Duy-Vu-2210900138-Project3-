@@ -1,11 +1,11 @@
 package com.tdv.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class HoSoKham {
     private int maHoSo;
     private int maBenhNhan;
-    private Date ngayKham;
+    private Timestamp ngayKham;
     private String chanDoan;
     private String bacSiDieuTri;
     private boolean trangThai;
@@ -13,7 +13,7 @@ public class HoSoKham {
     // Constructors
     public HoSoKham() {}
 
-    public HoSoKham(int maHoSo, int maBenhNhan, Date ngayKham, String chanDoan, String bacSiDieuTri, boolean trangThai) {
+    public HoSoKham(int maHoSo, int maBenhNhan, Timestamp ngayKham, String chanDoan, String bacSiDieuTri, boolean trangThai) {
         this.maHoSo = maHoSo;
         this.maBenhNhan = maBenhNhan;
         this.ngayKham = ngayKham;
@@ -29,8 +29,8 @@ public class HoSoKham {
     public int getMaBenhNhan() { return maBenhNhan; }
     public void setMaBenhNhan(int maBenhNhan) { this.maBenhNhan = maBenhNhan; }
 
-    public Date getNgayKham() { return ngayKham; }
-    public void setNgayKham(Date ngayKham) { this.ngayKham = ngayKham; }
+    public Timestamp getNgayKham() { return ngayKham; }
+    public void setNgayKham(Timestamp ngayKham) { this.ngayKham = ngayKham; }
 
     public String getChanDoan() { return chanDoan; }
     public void setChanDoan(String chanDoan) { this.chanDoan = chanDoan; }
@@ -38,6 +38,12 @@ public class HoSoKham {
     public String getBacSiDieuTri() { return bacSiDieuTri; }
     public void setBacSiDieuTri(String bacSiDieuTri) { this.bacSiDieuTri = bacSiDieuTri; }
 
-    public boolean isTrangThai() { return trangThai; }
+    public boolean getTrangThai() { return trangThai; }
     public void setTrangThai(boolean trangThai) { this.trangThai = trangThai; }
+
+    @Override
+    public String toString() {
+        return "HoSoKham [maHoSo=" + maHoSo + ", maBenhNhan=" + maBenhNhan + ", ngayKham=" + ngayKham +
+               ", chanDoan=" + chanDoan + ", bacSiDieuTri=" + bacSiDieuTri + ", trangThai=" + trangThai + "]";
+    }
 }

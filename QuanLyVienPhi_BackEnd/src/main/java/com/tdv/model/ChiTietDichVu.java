@@ -33,4 +33,10 @@ public class ChiTietDichVu {
 
     public double getThanhTien() { return thanhTien; }
     public void setThanhTien(double thanhTien) { this.thanhTien = thanhTien; }
+
+    @Override
+    public String toString() {
+        return "ChiTietDichVu [maChiTiet=" + maChiTiet + ", maHoSo=" + maHoSo + ", maDichVu=" + maDichVu +
+               ", soLuong=" + soLuong + ", thanhTien=" + thanhTien + "]";
+    }
 }

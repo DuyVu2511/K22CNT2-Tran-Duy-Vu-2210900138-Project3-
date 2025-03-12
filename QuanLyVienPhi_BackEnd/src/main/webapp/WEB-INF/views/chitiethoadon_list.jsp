@@ -1,33 +1,46 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Danh Sach Chi Tiet Hoa Don</title>
+    <meta charset="UTF-8">
+    <title>Danh Sách Chi Tiết Hóa Đơn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h2>Danh Sach Chi Tiet Hoa Don</h2>
-    <a href="chitiethoadon/add">Them Chi Tiet</a>
-    <table border="1">
-        <tr>
-            <th>Ma Chi Tiet</th>
-            <th>Ma Hoa Don</th>
-            <th>Ma Dich Vu</th>
-            <th>So Luong</th>
-            <th>Thanh Tien</th>
-            <th>Hanh Dong</th>
-        </tr>
-        <c:forEach var="chiTiet" items="${chiTietHoaDons}">
-            <tr>
-                <td>${chiTiet.maChiTiet}</td>
-                <td>${chiTiet.maHoaDon}</td>
-                <td>${chiTiet.maDichVu}</td>
-                <td>${chiTiet.soLuong}</td>
-                <td>${chiTiet.thanhTien}</td>
-                <td>
-                    <a href="chitiethoadon/edit/${chiTiet.maChiTiet}">Sua</a>
-                    <a href="chitiethoadon/delete/${chiTiet.maChiTiet}" onclick="return confirm('Ban co chac chan muon xoa?')">Xoa</a>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
+    <div class="container mt-5">
+        <h2 class="text-center">Danh Sách Chi Tiết Hóa Đơn</h2>
+        <a href="chitiethoadon_add" class="btn btn-primary mb-3">Thêm Chi Tiết Hóa Đơn</a>
+
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Mã Chi Tiết</th>
+                    <th>Mã Hóa Đơn</th>
+                    <th>Mã Dịch Vụ</th>
+                    <th>Số Lượng</th>
+                    <th>Thành Tiền</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="chiTiet" items="${chiTietHoaDons}">
+                    <tr>
+                        <td>${chiTiet.maChiTiet}</td>
+                        <td>${chiTiet.maHoaDon}</td>
+                        <td>${chiTiet.maDichVu}</td>
+                        <td>${chiTiet.soLuong}</td>
+                        <td>${chiTiet.thanhTien}</td>
+                        <td>
+                            <a href="chitiethoadon_edit/${chiTiet.maChiTiet}" class="btn btn-warning btn-sm">Sửa</a>
+                            <a href="chitiethoadon_delete/${chiTiet.maChiTiet}" class="btn btn-danger btn-sm" 
+                               onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

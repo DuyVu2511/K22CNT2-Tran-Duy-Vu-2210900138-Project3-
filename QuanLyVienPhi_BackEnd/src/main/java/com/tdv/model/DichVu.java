@@ -7,6 +7,7 @@ public class DichVu {
     private double donGia;
     private String trangThai;
 
+    // Constructors
     public DichVu() {}
 
     public DichVu(int maDichVu, String tenDichVu, String moTa, double donGia, String trangThai) {
@@ -17,6 +18,7 @@ public class DichVu {
         this.trangThai = trangThai;
     }
 
+    // Getters and Setters
     public int getMaDichVu() { return maDichVu; }
     public void setMaDichVu(int maDichVu) { this.maDichVu = maDichVu; }
 
@@ -31,4 +33,10 @@ public class DichVu {
 
     public String getTrangThai() { return trangThai; }
     public void setTrangThai(String trangThai) { this.trangThai = trangThai; }
+
+    @Override
+    public String toString() {
+        return "DichVu [maDichVu=" + maDichVu + ", tenDichVu=" + tenDichVu + ", moTa=" + moTa +
+               ", donGia=" + donGia + ", trangThai=" + trangThai + "]";
+    }
 }

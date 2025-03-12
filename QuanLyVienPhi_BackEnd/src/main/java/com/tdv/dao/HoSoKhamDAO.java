@@ -3,6 +3,7 @@ package com.tdv.dao;
 import com.tdv.model.HoSoKham;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -10,50 +11,61 @@ import java.util.List;
 public class HoSoKhamDAO {
     private JdbcTemplate jdbcTemplate;
 
-    // Setter để Spring tiêm JdbcTemplate
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // Lấy danh sách hồ sơ khám
     public List<HoSoKham> getAllHoSoKham() {
         String sql = "SELECT * FROM TDV_HoSoKham";
-        return jdbcTemplate.query(sql, new HoSoKhamMapper());
+        return jdbcTemplate.query(sql, new HoSoKhamRowMapper());
     }
 
-    // Lấy hồ sơ khám theo ID
-    public HoSoKham getById(int id) {
+    public HoSoKham getHoSoKhamById(int id) {
         String sql = "SELECT * FROM TDV_HoSoKham WHERE TDV_MaHoSo = ?";
-        return jdbcTemplate.queryForObject(sql, new HoSoKhamMapper(), id);
-    }
-
-    // Thêm hoặc cập nhật hồ sơ khám
-    public void saveOrUpdate(HoSoKham hoSoKham) {
-        if (hoSoKham.getMaHoSo() > 0) {
-            // Cập nhật
-            String sql = "UPDATE TDV_HoSoKham SET TDV_MaBenhNhan=?, TDV_NgayKham=?, TDV_ChanDoan=?, TDV_BacSiDieuTri=?, TDV_TrangThai=? WHERE TDV_MaHoSo=?";
-            jdbcTemplate.update(sql, hoSoKham.getMaBenhNhan(), hoSoKham.getNgayKham(), hoSoKham.getChanDoan(), hoSoKham.getBacSiDieuTri(), hoSoKham.isTrangThai(), hoSoKham.getMaHoSo());
-        } else {
-            // Thêm mới
-            String sql = "INSERT INTO TDV_HoSoKham (TDV_MaBenhNhan, TDV_NgayKham, TDV_ChanDoan, TDV_BacSiDieuTri, TDV_TrangThai) VALUES (?, ?, ?, ?, ?)";
-            jdbcTemplate.update(sql, hoSoKham.getMaBenhNhan(), hoSoKham.getNgayKham(), hoSoKham.getChanDoan(), hoSoKham.getBacSiDieuTri(), hoSoKham.isTrangThai());
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new HoSoKhamRowMapper());
+        } catch (Exception e) {
+            return null; // Trả về null nếu không tìm thấy
         }
     }
 
-    // Xóa hồ sơ khám theo ID
-    public void delete(int id) {
-        String sql = "DELETE FROM TDV_HoSoKham WHERE TDV_MaHoSo = ?";
-        jdbcTemplate.update(sql, id);
+    public int save(HoSoKham hoSoKham) {
+        String sql = "INSERT INTO TDV_HoSoKham (TDV_MaBenhNhan, TDV_NgayKham, TDV_ChanDoan, TDV_BacSiDieuTri, TDV_TrangThai) " +
+                     "VALUES (?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(sql,
+            hoSoKham.getMaBenhNhan(),
+            hoSoKham.getNgayKham(),
+            hoSoKham.getChanDoan(),
+            hoSoKham.getBacSiDieuTri(),
+            hoSoKham.getTrangThai()
+        );
     }
 
-    // RowMapper để ánh xạ dữ liệu từ ResultSet
-    private static class HoSoKhamMapper implements RowMapper<HoSoKham> {
+    public int update(HoSoKham hoSoKham) {
+        String sql = "UPDATE TDV_HoSoKham SET TDV_MaBenhNhan = ?, TDV_NgayKham = ?, TDV_ChanDoan = ?, " +
+                     "TDV_BacSiDieuTri = ?, TDV_TrangThai = ? WHERE TDV_MaHoSo = ?";
+        return jdbcTemplate.update(sql,
+            hoSoKham.getMaBenhNhan(),
+            hoSoKham.getNgayKham(),
+            hoSoKham.getChanDoan(),
+            hoSoKham.getBacSiDieuTri(),
+            hoSoKham.getTrangThai(),
+            hoSoKham.getMaHoSo()
+        );
+    }
+
+    public int delete(int id) {
+        String sql = "DELETE FROM TDV_HoSoKham WHERE TDV_MaHoSo = ?";
+        return jdbcTemplate.update(sql, id);
+    }
+
+    private static class HoSoKhamRowMapper implements RowMapper<HoSoKham> {
         @Override
         public HoSoKham mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new HoSoKham(
                 rs.getInt("TDV_MaHoSo"),
                 rs.getInt("TDV_MaBenhNhan"),
-                rs.getDate("TDV_NgayKham"),
+                rs.getTimestamp("TDV_NgayKham"),
                 rs.getString("TDV_ChanDoan"),
                 rs.getString("TDV_BacSiDieuTri"),
                 rs.getBoolean("TDV_TrangThai")
